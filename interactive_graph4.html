@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Interactive Graph (15 Data Points)</title>
+</head>
+<body>
+    <h2>Interactive Graph (Enter up to 15 Points)</h2>
+    <div id="graph"></div>
+    
+    <h4>Enter your data points (X and Y values between 0 and 1):</h4>
+    <table id="input-table">
+        <thead>
+            <tr>
+                <th>X Value (0 to 1)</th>
+                <th>Y Value (0 to 1)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 15 rows for user input -->
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x0"></td><td><input type="number" step="0.1" min="0" max="1" id="y0"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x1"></td><td><input type="number" step="0.1" min="0" max="1" id="y1"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x2"></td><td><input type="number" step="0.1" min="0" max="1" id="y2"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x3"></td><td><input type="number" step="0.1" min="0" max="1" id="y3"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x4"></td><td><input type="number" step="0.1" min="0" max="1" id="y4"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x5"></td><td><input type="number" step="0.1" min="0" max="1" id="y5"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x6"></td><td><input type="number" step="0.1" min="0" max="1" id="y6"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x7"></td><td><input type="number" step="0.1" min="0" max="1" id="y7"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x8"></td><td><input type="number" step="0.1" min="0" max="1" id="y8"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x9"></td><td><input type="number" step="0.1" min="0" max="1" id="y9"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x10"></td><td><input type="number" step="0.1" min="0" max="1" id="y10"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x11"></td><td><input type="number" step="0.1" min="0" max="1" id="y11"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x12"></td><td><input type="number" step="0.1" min="0" max="1" id="y12"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x13"></td><td><input type="number" step="0.1" min="0" max="1" id="y13"></td></tr>
+            <tr><td><input type="number" step="0.1" min="0" max="1" id="x14"></td><td><input type="number" step="0.1" min="0" max="1" id="y14"></td></tr>
+        </tbody>
+    </table>
+
+    <button onclick="plotData()">Plot Data Points</button>
+
+    <p id="warning-message" style="color:red;"></p>
+
+    <script>
+        function plotData() {
+            var xData = [];  // Array to store X values
+            var yData = [];  // Array to store Y values
+            var warningMessage = document.getElementById('warning-message');  // Warning message
+            var maxPoints = 15;  // Limit to 15 points
+
+            // Iterate over the input fields and get the data
+            for (var i = 0; i < maxPoints; i++) {
+                var xValue = parseFloat(document.getElementById('x' + i).value);  // Get X value
+                var yValue = parseFloat(document.getElementById('y' + i).value);  // Get Y value
+
+                // Check if the values are valid (between 0 and 1)
+                if (xValue >= 0 && xValue <= 1 && yValue >= 0 && yValue <= 1) {
+                    xData.push(xValue);  // Add X value to array
+                    yData.push(yValue);  // Add Y value to array
+                }
+            }
+
+            if (xData.length === 0 || yData.length === 0) {
+                warningMessage.textContent = "Please enter valid points for at least one pair of X and Y.";
+            } else {
+                warningMessage.textContent = "";  // Clear warning message
+
+                // Create the trace for plotting
+                var trace = {
+                    x: xData,
+                    y: yData,
+                    mode: 'markers',  // Only show markers (no lines)
+                    type: 'scatter'
+                };
+
+                // Define the layout of the graph
+                var layout = {
+                    xaxis: {range: [0, 1], dtick: 0.1, title: 'X Axis'},  // X axis range 0 to 1
+                    yaxis: {range: [0, 1], dtick: 0.1, title: 'Y Axis'}   // Y axis range 0 to 1
+                };
+
+                // Plot the graph
+                Plotly.newPlot('graph', [trace], layout);
+            }
+        }
+    </script>
+</body>
+</html>
